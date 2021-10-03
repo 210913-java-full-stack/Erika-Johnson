@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public class AccountModel {
     private int account_id;
-    private String accountType;
+    private String account_type;
     private double balance;
     private AccountDAO AccountDao;
 
@@ -18,16 +18,16 @@ public class AccountModel {
 
     public AccountModel(int account_id, String accountType, double balance) {
         this.account_id = account_id;
-        this.accountType = accountType;
+        this.account_type = account_type;
         this.balance = balance;
     }
 
     public String getAccountType() {
-        return accountType;
+        return account_type;
     }
 
     public void setAccountType(String accountType) {
-        this.accountType = accountType;
+        this.account_type = accountType;
     }
 
     public int getAccount_id() {
@@ -47,7 +47,7 @@ public class AccountModel {
     }
 
     public String toString() {
-        return this.account_id + " - " + this.accountType + " - " + this.balance;
+        return this.account_id + " - " + this.account_type + " - " + this.balance;
         }
 
 

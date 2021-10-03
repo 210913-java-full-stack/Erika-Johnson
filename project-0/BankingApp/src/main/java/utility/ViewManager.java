@@ -3,6 +3,7 @@ import exceptions.BadUserException;
 import utility.datastructures.MyArrayList;
 import views.*;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Scanner;
@@ -63,7 +64,7 @@ public class ViewManager {
 /**
  * Called from the main loop, and just calls the queued next view's render method
  */
-    public void goToNextView() throws SQLException, BadUserException {
+    public void goToNextView() throws SQLException, BadUserException, IOException {
         nextView.renderView();
     }
 

@@ -3,6 +3,7 @@ package views;
 import exceptions.BadUserException;
 import utility.ViewManager;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Scanner;
 
@@ -28,5 +29,5 @@ public abstract class View {
      * which is based on their input. For example. if a user wants to check their balance or login would
      * invoke the renderView method to that screen. Using the proper logic. Can also invoke the DAO methods
     */
-    public abstract void renderView() throws SQLException, BadUserException;
+    public abstract void renderView() throws SQLException, BadUserException, IOException;
 }

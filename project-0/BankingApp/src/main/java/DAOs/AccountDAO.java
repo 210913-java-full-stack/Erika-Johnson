@@ -19,8 +19,25 @@ public class AccountDAO implements AccountCrud {
 
     @Override
     public void save(AccountModel row) throws SQLException {
+        String sql = "SELECT account_id FROM accounts WHERE account_id =?";
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        pstmt.setInt(1, row.getAccount_id());
 
+        ResultSet rs = pstmt.executeQuery();
+
+        if (rs.next()) {
+            System.out.println("Account_id taken");
+        } else {
+            String userAcct = "INSERT INTO accounts (account_id, account_type, balance) VALUES (?,?,?)";
+            PreparedStatement prepState = conn.prepareStatement(userAcct);
+
+            prepState.setInt(1, row.getAccount_id());
+            prepState.setString(2, row.getAccountType());
+            prepState.setDouble(3, row.getBalance());
+            prepState.executeUpdate();
+        }
     }
+
 
     @Override
     public AccountModel getItemById(int account_id) throws SQLException {
@@ -30,10 +47,12 @@ public class AccountDAO implements AccountCrud {
       ResultSet rs = pstmt.executeQuery();
 
       if(rs.next()) {
-          return new AccountModel(rs.getInt("account_id"), (rs.getString("accountType")),
+          return new AccountModel(rs.getInt("account_id"), (rs.getString("account_type")),
                   (rs.getDouble("balance")));
+      }else {
+          return null;
       }
-        return null;
+
     }
 
     @Override
@@ -45,7 +64,7 @@ public class AccountDAO implements AccountCrud {
         MyArrayList<AccountModel> resultList = new MyArrayList();
         while (rs.next()) {
             AccountModel newItem = new AccountModel(rs.getInt("account_id"),
-                    rs.getString("accountType"), rs.getInt("balance"));
+                    rs.getString("account_type"), rs.getInt("balance"));
             resultList.add(newItem);
         }
         return resultList;

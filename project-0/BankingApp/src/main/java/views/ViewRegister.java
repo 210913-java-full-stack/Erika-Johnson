@@ -37,7 +37,8 @@ public class ViewRegister extends View{
 //        System.out.println("C");
 
         userdao.save(uModel);
-        System.out.println("User created");
+        System.out.println("Thank's for joining our bank " + username+ " " + "as a gift we have set " +
+                "you with your personal checking account");
 
         viewManager.navigate("ViewBankMenu");
 }

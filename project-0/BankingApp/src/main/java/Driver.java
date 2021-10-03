@@ -2,6 +2,8 @@
 import exceptions.BadUserException;
 import utility.ConnectionManager;
 import utility.ViewManager;
+
+import java.io.IOException;
 import java.sql.*;
 
 
@@ -22,7 +24,7 @@ public class Driver {
         while (viewManager.isRunning()) {
             try {
                 viewManager.goToNextView();
-            } catch (SQLException | BadUserException e) {
+            } catch (SQLException | BadUserException | IOException e) {
                 e.printStackTrace();
             }
         }

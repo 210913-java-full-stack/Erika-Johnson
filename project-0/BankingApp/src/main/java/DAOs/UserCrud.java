@@ -20,5 +20,4 @@ public interface UserCrud<E> {
         public MyArrayList<E> getAllItems() throws SQLException;
         public void deleteById(int user_id) throws SQLException;
         //public UserModel getItemBykeyword(String keyword); //SELECT * FROM items WHERE firstname LIKE "KEYWORD%"
-
 }
