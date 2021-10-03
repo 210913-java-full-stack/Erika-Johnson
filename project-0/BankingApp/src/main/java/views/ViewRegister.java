@@ -1,9 +1,11 @@
 package views;
 
 import DAOs.UserDAO;
+import exceptions.BadUserException;
 import models.UserModel;
 
 import java.sql.SQLException;
+import java.util.Random;
 import java.util.Scanner;
 
 public class ViewRegister extends View{
@@ -12,7 +14,7 @@ public class ViewRegister extends View{
     }
 
     @Override
-    public void renderView() throws SQLException {
+    public void renderView() throws SQLException, BadUserException {
         UserDAO userdao = new UserDAO(viewManager.getConn());
         UserModel uModel = new UserModel();
 
@@ -24,17 +26,17 @@ public class ViewRegister extends View{
 
         System.out.print("Create a Password");
         String pass = scanner.nextLine();
-        System.out.println("A");
+//        System.out.println("A");
 
 
-        System.out.println("B");
+//        System.out.println("B");
         uModel.setUsername(username);
 
         uModel.setEmail(email);
         uModel.setPassword(pass);
-        System.out.println("C");
+//        System.out.println("C");
 
-        userdao.save(uModel); //Error occurs here need to create an account first
+        userdao.save(uModel); 
         System.out.println("User created");
 
         viewManager.navigate("ViewBankMenu");

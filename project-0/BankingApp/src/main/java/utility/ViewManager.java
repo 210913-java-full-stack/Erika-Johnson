@@ -1,4 +1,5 @@
 package utility;
+import exceptions.BadUserException;
 import utility.datastructures.MyArrayList;
 import views.*;
 
@@ -62,7 +63,7 @@ public class ViewManager {
 /**
  * Called from the main loop, and just calls the queued next view's render method
  */
-    public void goToNextView() throws SQLException {
+    public void goToNextView() throws SQLException, BadUserException {
         nextView.renderView();
     }
 

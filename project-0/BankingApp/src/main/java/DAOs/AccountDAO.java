@@ -17,20 +17,8 @@ public class AccountDAO implements AccountCrud {
       this.conn = conn;
   }
 
-
     @Override
-    public void save(AccountModel row) {
-
-
-    }
-
-    @Override
-    public void insert(AccountModel row) throws SQLException {
-      String insertStmt = "INSERT INTO accounts (accountType, balance) VALUES (?, ?)";
-      PreparedStatement pstmt = conn.prepareStatement(insertStmt);
-      pstmt.setString(1, row.getAccountType());
-      pstmt.setDouble(2, row.getBalance());
-      pstmt.executeUpdate(insertStmt);
+    public void save(AccountModel row) throws SQLException {
 
     }
 
