@@ -18,7 +18,6 @@ public interface UserCrud<E> {
         public void save(UserModel row) throws SQLException, BadUserException;
         public UserModel getItemByID(int user_id) throws SQLException;
         public MyArrayList<E> getAllItems() throws SQLException;
-        public boolean insert (UserModel row) throws SQLException;
         public void deleteById(int user_id) throws SQLException;
         //public UserModel getItemBykeyword(String keyword); //SELECT * FROM items WHERE firstname LIKE "KEYWORD%"
 

@@ -36,7 +36,7 @@ public class ViewRegister extends View{
         uModel.setPassword(pass);
 //        System.out.println("C");
 
-        userdao.save(uModel); 
+        userdao.save(uModel);
         System.out.println("User created");
 
         viewManager.navigate("ViewBankMenu");

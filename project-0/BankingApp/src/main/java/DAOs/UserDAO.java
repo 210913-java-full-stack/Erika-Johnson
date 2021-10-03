@@ -16,12 +16,8 @@ public class UserDAO implements UserCrud {
     public UserDAO(Connection conn) {
         this.conn = conn;
     }
-    /**Grabbing the account_id to allow user to create a bank account*/
-    public int newAccountId;
 
-
-
-    /**Grabbing the user_id to allow user to register for an account*/
+    /**Returning the user_id to allow user to register for an account*/
     public int newUserId;
     @Override
     public int getUserKey() throws SQLException {
@@ -34,6 +30,8 @@ public class UserDAO implements UserCrud {
         }
         return newUserId;
     }
+    /**Returning the account_id to allow user to create a bank account*/
+    public int newAccountId;
     @Override
     public int getAccountKey() throws SQLException {
         String sql = "SELECT * FROM customer_accounts";
@@ -46,8 +44,16 @@ public class UserDAO implements UserCrud {
         return newAccountId;
     }
 
-    //param starts counting at 1
-//    @Override
+    /**
+     * Checks to see what user_id is available if already in use will through an exception
+     * Pass in getAccountKey() and getUserKey() methods, so we don't duplicate an entry
+     * If user_id key is available will insert it into the customer_accounts table, which is our junction table
+     * customer_accounts table must have user_id and account_id(foreign keys) inserted first before anyone can
+     * register for an account and create a bank account, as the user and account table are dependent on the customer_account table
+     * When inserting the foreign keys into the customer_account table must increment the return value to receive the next available id
+     * Once those values are inserted into the table once you register you will automatically be given a bank account.
+     */
+    @Override
     public void save (UserModel row) throws SQLException, BadUserException{
         getAccountKey();
         getUserKey();
@@ -80,29 +86,12 @@ public class UserDAO implements UserCrud {
            String userAccount = "INSERT INTO accounts (account_id, account_type, balance) VALUES (?,?,?)";
            PreparedStatement prepAcctEntryStmt = conn.prepareStatement(userAccount);
            prepAcctEntryStmt.setInt(1, newAccountId);
-           prepAcctEntryStmt.setString(2, "savings");
+           prepAcctEntryStmt.setString(2, "checking");
            prepAcctEntryStmt.setInt(3, 0);
            prepAcctEntryStmt.executeUpdate();
 
        }
     }
-
-
-
-//        String query = "INSERT INTO users (user_id, username, email, password) VALUES (?,?,?,?)";
-//        PreparedStatement pstmt = conn.prepareStatement(query);
-//        pstmt.setInt(1, row.getUser_id());
-//        pstmt.setString(2, row.getUsername());
-//        pstmt.setString(3, row.getEmail());
-//        pstmt.setString(4, row.getPassword());
-//        //auto-incremented data stored in pstmt, now have to retrieve it
-//        pstmt.executeUpdate();
-//
-//        ResultSet rs = pstmt.getGeneratedKeys();
-//        rs.next();
-//        row.setUser_id(rs.getInt("user_id"));
-
-
 
     @Override
     public MyArrayList<UserModel> getQuery() throws SQLException {
@@ -113,26 +102,9 @@ public class UserDAO implements UserCrud {
     }
 
 
-    //User Registration should be able to save users info to db not returning any data
-    //Maybe use boolean to return true or false if user registered
-    //Must create customer accounts first before creating a user due to the junction table
-    @Override
-    public boolean insert(UserModel row) throws SQLException {
-        String insertStmt = "INSERT INTO users(user_id, username, email, password) VALUES =(?,?,?,?)";
-        PreparedStatement pstmt = conn.prepareStatement(insertStmt);
-        pstmt.setInt(1, row.getUser_id());
-        pstmt.setString(2, row.getUsername());
-        pstmt.setString(3, row.getEmail());
-        pstmt.setString(4, row.getPassword());
-        pstmt.executeUpdate();
-        {
-            return true;
-        }
+    /**User Login maybe a boolean if user logged in return true or false
+     *use getString() not setString() because retrieving data from db*/
 
-    }
-
-    //User Login maybe a boolean if user logged in return true or false
-    //use getString() not setString() because retrieving data from db
     @Override
     public boolean authenticate (String log, String pass) throws SQLException {
 
@@ -152,19 +124,6 @@ public class UserDAO implements UserCrud {
                 }
          }
             return false;
-        }
-
-        public void Create(UserModel user) throws SQLException, BadUserException {
-            String query = "INSERT INTO users (user_id, username, email, password) VALUES (?,?,?,?)";
-            PreparedStatement pstmt = conn.prepareStatement(query);
-            pstmt.setInt(1, user.getUser_id());
-            pstmt.setString(2, user.getUsername());
-            pstmt.setString(3, user.getEmail());
-            pstmt.setString(4, user.getPassword());
-            pstmt.executeUpdate(query);
-
-            throw new BadUserException();
-
         }
 
     @Override
