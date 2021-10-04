@@ -18,17 +18,8 @@ public class CreateBankAccount extends View{
 
      System.out.print("Please enter savings or checking for type of account:");
      String accountType = scanner.nextLine();
-     System.out.print("Please deposit a balance:");
-                System.out.println("B");
-     Double balance = scanner.nextDouble();
-     if(balance < 5){
-         System.out.println("Must deposit at least $5");
-     } else {
-         System.out.println("Deposit successful!");
-     }
-                System.out.println("C");
+     System.out.println("C");
      newModel.setAccountType(accountType);
-     newModel.setBalance(balance);
      accountdao.save(newModel);
         System.out.println("D");
 

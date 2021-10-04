@@ -111,7 +111,6 @@ public class UserDAO implements UserCrud {
             String user;
             String password;
 
-
             String sql = "SELECT username, password FROM users";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery(sql);
@@ -125,21 +124,37 @@ public class UserDAO implements UserCrud {
          }
             return false;
         }
-
+//
+//    @Override
+//    public UserModel getItemByID(int user_id) throws SQLException {
+//        String sql = "SELECT * FROM users WHERE user_id = ?";
+//        PreparedStatement pstmt = conn.prepareStatement(sql);
+//        pstmt.setInt(1, user_id);
+//        ResultSet rs = pstmt.executeQuery();
+//
+//        if(rs.next()) {
+//           return new UserModel(rs.getInt("user_id"), rs.getString("username"),rs.getString("email"),
+//                    rs.getString("password"));
+//        } else {
+//            return null;
+//        }
+//    }
     @Override
     public UserModel getItemByID(int user_id) throws SQLException {
-        String sql = "SELECT * FROM users WHERE user_id= ?";
+        UserModel userModel = new UserModel();
+        String sql = "Select user_id , username from users";
         PreparedStatement pstmt = conn.prepareStatement(sql);
         pstmt.setInt(1, user_id);
-        ResultSet rs = pstmt.executeQuery();
+        ResultSet rs = pstmt.executeQuery(sql);
 
-        if(rs.next()) {
-           return new UserModel(rs.getInt("user_id"), rs.getString("username"),rs.getString("email"),
-                    rs.getString("password"));
-        } else {
-            return null;
+        while (rs.next()) {
+            userModel.setUser_id(rs.getInt("user_id"));
+            userModel.setUsername(rs.getString("username"));
         }
-    }
+
+            return userModel;
+        }
+
 
     @Override
     public MyArrayList<UserModel> getAllItems() throws SQLException {
@@ -149,13 +164,19 @@ public class UserDAO implements UserCrud {
 
         //Implement Array List here
         MyArrayList<UserModel> resultList = new MyArrayList<>();
-        while(rs.next()) {
-           UserModel newItem = new UserModel(rs.getInt("user_id"), rs.getString("username"),rs.getString("email"),
-                    rs.getString("password"));
-           resultList.add(newItem);
+        while (rs.next()) {
+            UserModel newItem = new UserModel();
+            newItem.setUser_id(rs.getInt("user_id"));
+            newItem.setUsername(rs.getString("username"));
+            newItem.setEmail(rs.getString("email"));
+            resultList.add(newItem);
         }
+       for (UserModel um : resultList){
+           System.out.println(um);
 
+       }
         return resultList;
+
     }
 
     @Override
