@@ -1,5 +1,6 @@
 package utility;
 import exceptions.BadUserException;
+import models.UserModel;
 import utility.datastructures.MyArrayList;
 import views.*;
 
@@ -21,13 +22,14 @@ public class ViewManager {
     private boolean running;
     private Connection conn;
     private Scanner scanner;
+    private UserModel currentUser;
 
     public ViewManager() {
        viewManager = this;
        running = true;
        conn = ConnectionManager.getConnection();
        scanner = new Scanner(System.in); //Binding Scanner to our console
-        viewList = new MyArrayList<>();
+       viewList = new MyArrayList<>();
 
         //set up views
         viewList.add(new MainMenu(scanner));
@@ -39,7 +41,6 @@ public class ViewManager {
         viewList.add(new MakeAWithdrawal(scanner));
         viewList.add(new ViewYourBankAccount(scanner));
     }
-
 
 /**
  * This is the method to retrieve the singleton instance of ViewManager
@@ -84,4 +85,11 @@ public class ViewManager {
         this.conn = conn;
     }
 
+    public UserModel getCurrentUser() {
+        return currentUser;
+    }
+
+    public void setCurrentUser(UserModel currentUser) {
+        this.currentUser = currentUser;
+    }
 }

@@ -2,6 +2,7 @@ package DAOs;
 
 import exceptions.BadUserException;
 import models.UserModel;
+import utility.ViewManager;
 import utility.datastructures.MyArrayList;
 import java.sql.*;
 
@@ -52,11 +53,12 @@ public class UserDAO implements UserCrud {
      * register for an account and create a bank account, as the user and account table are dependent on the customer_account table
      * When inserting the foreign keys into the customer_account table must increment the return value to receive the next available id
      * Once those values are inserted into the table once you register you will automatically be given a bank account.
+     * @return
      */
     @Override
     public void save (UserModel row) throws SQLException, BadUserException{
-        getAccountKey();
-        getUserKey();
+       getAccountKey();
+       getUserKey();
        String sql =  "SELECT user_id FROM users WHERE user_id = ?";
        PreparedStatement pstmt = conn.prepareStatement(sql);
        pstmt.setInt(1, row.getUser_id());
@@ -91,16 +93,8 @@ public class UserDAO implements UserCrud {
            prepAcctEntryStmt.executeUpdate();
 
        }
+
     }
-
-    @Override
-    public MyArrayList<UserModel> getQuery() throws SQLException {
-        String sql = "SELECT username, email, password FROM users";
-        PreparedStatement pstmt = conn.prepareStatement(sql);
-
-        return null;
-    }
-
 
     /**User Login maybe a boolean if user logged in return true or false
      *use getString() not setString() because retrieving data from db*/
@@ -111,7 +105,7 @@ public class UserDAO implements UserCrud {
             String user;
             String password;
 
-            String sql = "SELECT username, password FROM users";
+            String sql = "SELECT * FROM users";//change this to * instead of username and pass select * from users
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery(sql);
 
@@ -119,41 +113,47 @@ public class UserDAO implements UserCrud {
              user = rs.getString("username");
              password = rs.getString("password");
              if(user.equals(log) && (password.equals(pass))){
+                 UserModel currentUser = new UserModel();
+                 currentUser.setUser_id(rs.getInt("user_id"));
+                 currentUser.setUsername(rs.getString("username"));
+                 currentUser.setPassword(rs.getString("password"));
+                 ViewManager.getViewManager().setCurrentUser(currentUser);
+                 //before returning true, marshall these results into a UserModel object
+                 // then store that object with viewManager.setCurrentUser(user), then whenever you need to know who is logged in,
+                 //just get it with the getter method. UserModel user =  viewManager.getCurrentUser();
                  return true;
+
                 }
          }
             return false;
         }
-//
-//    @Override
-//    public UserModel getItemByID(int user_id) throws SQLException {
-//        String sql = "SELECT * FROM users WHERE user_id = ?";
-//        PreparedStatement pstmt = conn.prepareStatement(sql);
-//        pstmt.setInt(1, user_id);
-//        ResultSet rs = pstmt.executeQuery();
-//
-//        if(rs.next()) {
-//           return new UserModel(rs.getInt("user_id"), rs.getString("username"),rs.getString("email"),
-//                    rs.getString("password"));
-//        } else {
-//            return null;
-//        }
-//    }
+
+    @Override
+    public MyArrayList<UserModel> getQuery() throws SQLException {
+        String sql = "SELECT username, email, password FROM users";
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+
+        return null;
+    }
+
     @Override
     public UserModel getItemByID(int user_id) throws SQLException {
-        UserModel userModel = new UserModel();
-        String sql = "Select user_id , username from users";
+        String sql = "SELECT * FROM users WHERE user_id = ?";
         PreparedStatement pstmt = conn.prepareStatement(sql);
         pstmt.setInt(1, user_id);
         ResultSet rs = pstmt.executeQuery(sql);
 
-        while (rs.next()) {
-            userModel.setUser_id(rs.getInt("user_id"));
-            userModel.setUsername(rs.getString("username"));
+        if(rs.next()) {
+           return new UserModel(rs.getInt("user_id"), rs.getString("username"),rs.getString("email"),
+                    rs.getString("password"));
+        } else {
+            return null;
         }
+    }
 
-            return userModel;
-        }
+    //       String userInfo = "SELECT username, account_type, balance FROM users u " +
+//               "JOIN customer_accounts ca ON u.user_id = ca.user_id " +
+//               "JOIN accounts a ON ca.account_id = a.account_id ORDER BY a.balance desc";
 
 
     @Override
@@ -162,7 +162,6 @@ public class UserDAO implements UserCrud {
         Statement stat = conn.createStatement();
         ResultSet rs = stat.executeQuery(sql);
 
-        //Implement Array List here
         MyArrayList<UserModel> resultList = new MyArrayList<>();
         while (rs.next()) {
             UserModel newItem = new UserModel();
@@ -178,14 +177,6 @@ public class UserDAO implements UserCrud {
         return resultList;
 
     }
+ }
 
-    @Override
-    public void deleteById(int user_id) throws SQLException {
-        String sql = "DELETE FROM users WHERE id = ?";
-        PreparedStatement pstmt = conn.prepareStatement(sql);
-        pstmt.setInt(1, user_id);
 
-        pstmt.executeUpdate();
-    }
-
-}

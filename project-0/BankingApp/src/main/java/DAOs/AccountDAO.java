@@ -1,13 +1,8 @@
 package DAOs;
 
 import models.AccountModel;
-import utility.datastructures.MyArrayInterface;
 import utility.datastructures.MyArrayList;
-
-import javax.swing.plaf.nimbus.State;
-
 import java.sql.*;
-import java.util.List;
 
 public class AccountDAO implements AccountCrud {
 
@@ -16,21 +11,20 @@ public class AccountDAO implements AccountCrud {
   public AccountDAO(Connection conn) {
       this.conn = conn;
   }
+//To create another bank account need the user_id
+// need to perhaps populate the junction table first with a new account
 
     @Override
     public void save(AccountModel row) throws SQLException {
         String sql = "SELECT account_id FROM accounts WHERE account_id =?";
         PreparedStatement pstmt = conn.prepareStatement(sql);
         pstmt.setInt(1, row.getAccount_id());
-
         ResultSet rs = pstmt.executeQuery();
-
         if (rs.next()) {
             System.out.println("Account_id taken");
         } else {
             String userAcct = "INSERT INTO accounts (account_id, account_type, balance) VALUES (?,?,?)";
             PreparedStatement prepState = conn.prepareStatement(userAcct);
-
             prepState.setInt(1, row.getAccount_id());
             prepState.setString(2, row.getAccountType());
             prepState.setDouble(3, row.getBalance());

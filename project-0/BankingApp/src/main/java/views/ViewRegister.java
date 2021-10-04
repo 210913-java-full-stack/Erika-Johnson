@@ -16,7 +16,6 @@ public class ViewRegister extends View{
         super(scanner, "ViewRegister");
     }
 
-
     @Override
     public void renderView() throws SQLException, BadUserException {
         UserDAO userdao = new UserDAO(viewManager.getConn());
@@ -24,30 +23,35 @@ public class ViewRegister extends View{
 
         System.out.print("Create a Username:");
         String username = scanner.nextLine();
-
         System.out.print("Enter an Email:");
         String email = scanner.nextLine();
-
-
         System.out.print("Create a Password");
         String pass = scanner.nextLine();
-//        System.out.println("A");
-
-
-//        System.out.println("B");
         uModel.setUsername(username);
-
         uModel.setEmail(email);
         uModel.setPassword(pass);
-//        System.out.println("C");
-
         userdao.save(uModel);
-        System.out.println(passWordValidate(pass));
-        System.out.println("Thank's for joining our bank " + username+ " " + "as a gift we have set " +
-                "you with your personal checking account");
 
-        viewManager.navigate("ViewBankMenu");
+        if(passWordValidate(pass)){
+            System.out.println("Thanks for joining our bank " + username);
+            System.out.println("As a gift we have set you with your own personal checking account");
+
+            viewManager.navigate("ViewBankMenu");
+        } else{
+            viewManager.navigate("MainMenu");
+        }
 }
+
+/**
+ * Username validation. In sql a unique constraint is placed on username in users table
+ */
+
+/**
+ * Email Validation for registration
+ */
+
+//    private boolean checkEmail(String email) {
+//    }
 
     /**
      * Password validation for registration
@@ -61,7 +65,7 @@ public class ViewRegister extends View{
         }else{
             return false;
         }
-        System.out.println("Invalid Password, not long enough");
+        System.out.println("Password must be at least 8 characters containing 1 Uppercase, a Lowercase and a number");
         return false;
     }
 

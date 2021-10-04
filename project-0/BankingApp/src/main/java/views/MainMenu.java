@@ -20,8 +20,7 @@ public class MainMenu extends View{
 
     @Override
     public void renderView() {
-        //Write I/O here, also the navigation based on processing input
-        System.out.println("=====Welcome to Union Bank=====\n Please Select from the Menu:\n\n1)Login\n2)Not a member? Register\n3)Logout");
+        System.out.println("=====Welcome to Union Bank=====\n Please Select from the Menu:\n\n1)Login\n2)Register for an account\n3)Logout");
         String input = scanner.nextLine();
 
         switch (input) {

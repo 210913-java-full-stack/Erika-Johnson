@@ -2,6 +2,7 @@ package views;
 
 import DAOs.AccountDAO;
 import models.AccountModel;
+import utility.ViewManager;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -18,12 +19,14 @@ public class CreateBankAccount extends View{
 
      System.out.print("Please enter savings or checking for type of account:");
      String accountType = scanner.nextLine();
-     System.out.println("C");
+//   System.out.println("C");
      newModel.setAccountType(accountType);
+     newModel.setBalance(0);
+//     newModel.setAccount_id(ViewManager.incremental++);
      accountdao.save(newModel);
-        System.out.println("D");
+//   System.out.println("D");
+     System.out.println("Your account has been created");
 
-
-        viewManager.navigate("ViewBankMenu");
+     viewManager.navigate("ViewBankMenu");
     }
 }

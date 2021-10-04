@@ -7,10 +7,12 @@ public class ViewBankMenu extends View{
         super(scanner, "ViewBankMenu");
     }
 
+    /**
+     * Write I/O here, also the navigation based on processing input
+     */
 
     @Override
     public void renderView() {
-        //Write I/O here, also the navigation based on processing input
         System.out.println("=====Welcome to Union Bank=====\n Please Enter Selection:\n\n1)Create a Bank Account\n2)Make a deposit" +
                 "\n3)Make a withdrawal\n4)View your bank account\n5)Logout");
         String input = scanner.nextLine();
@@ -38,14 +40,5 @@ public class ViewBankMenu extends View{
 
         }
 
-//       MyArrayInterface<String> BankMenu = new MyArrayList<>();
-//     BankMenu.add("1)Create an account");
-//     BankMenu.add("2)Make a deposit");
-//     BankMenu.add("3)Make a withdrawal");
-//     BankMenu.add("4)View your accounts");
-//     BankMenu.add("5)Logout");
-//     for (int i = 0; i < BankMenu.size(); i++) {
-//     System.out.println(BankMenu.get(i));
-//
     }
 }

@@ -5,7 +5,6 @@ import models.UserModel;
 import utility.datastructures.MyArrayList;
 
 import java.sql.SQLException;
-import java.util.List;
 
 public interface UserCrud<E> {
 
@@ -18,6 +17,5 @@ public interface UserCrud<E> {
         public void save(UserModel row) throws SQLException, BadUserException;
         public UserModel getItemByID(int user_id) throws SQLException;
         public MyArrayList<E> getAllItems() throws SQLException;
-        public void deleteById(int user_id) throws SQLException;
-        //public UserModel getItemBykeyword(String keyword); //SELECT * FROM items WHERE firstname LIKE "KEYWORD%"
+           //public UserModel getItemBykeyword(String keyword); //SELECT * FROM items WHERE firstname LIKE "KEYWORD%"
 }

@@ -17,7 +17,6 @@ public class UserModel {
         this.password = password;
     }
 
-
     public int getUser_id() {
         return user_id;
     }
@@ -54,6 +53,8 @@ public class UserModel {
     public String toString() {
         return this.user_id + " - " + this.username + " - " + this.email;
     }
+
+
 
     /**
      * Password validation for registration

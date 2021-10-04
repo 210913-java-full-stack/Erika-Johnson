@@ -2,7 +2,6 @@ package views;
 
 import DAOs.UserDAO;
 import models.UserModel;
-import utility.datastructures.MyArrayList;
 
 import java.sql.SQLException;
 import java.util.Scanner;
@@ -14,7 +13,8 @@ public class ViewYourBankAccount extends View{
 
     @Override
     public void renderView() throws SQLException {
-
+        UserDAO newModel = new UserDAO(viewManager.getConn());
+        UserModel userInfo = new UserModel();
 
 
         viewManager.navigate("ViewBankMenu");
