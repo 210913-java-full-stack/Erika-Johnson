@@ -27,7 +27,7 @@ public class ViewLogin extends View{
             System.out.println( ViewManager.getViewManager().getCurrentUser());
             viewManager.navigate("ViewBankMenu");
     } else {
-          System.out.println("Username and password do not match");
+          System.out.println("Username and Password do not match");
           viewManager.navigate("MainMenu");
         }
 

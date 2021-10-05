@@ -5,6 +5,8 @@ import models.UserModel;
 import utility.datastructures.MyArrayList;
 
 import java.sql.SQLException;
+import java.text.NumberFormat;
+import java.util.Locale;
 import java.util.Scanner;
 
 
@@ -19,6 +21,7 @@ public class ViewYourBankAccount extends View{
         AccountDAO acctDao = new AccountDAO(viewManager.getConn());
         AccountModel acctModel = new AccountModel();
         UserModel user =  viewManager.getCurrentUser();
+//        NumberFormat nf = NumberFormat.getInstance(Locale.US);
 
         MyArrayList<AccountModel> bankList;
         bankList = acctDao.getUserAccount(user.getUser_id());
@@ -26,7 +29,7 @@ public class ViewYourBankAccount extends View{
         for(int i = 0; i < bankList.size(); i++){
             System.out.println("======Your Bank Accounts======");
             System.out.println(" ");
-            System.out.println(bankList.get(i));
+            System.out.println(bankList.get(i)); //Format currency here
         }
 //
 //        NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);

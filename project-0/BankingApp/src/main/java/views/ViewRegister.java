@@ -35,8 +35,9 @@ public class ViewRegister extends View{
         if(passWordValidate(pass)){
             System.out.println("Thanks for joining our bank " + username);
             System.out.println("As a gift we have set you with your own personal checking account");
+            System.out.println("You will be redirected to the login screen");
 
-            viewManager.navigate("ViewBankMenu");
+            viewManager.navigate("ViewLogin");
         } else{
             viewManager.navigate("MainMenu");
         }
@@ -51,6 +52,7 @@ public class ViewRegister extends View{
  */
 
 //    private boolean checkEmail(String email) {
+//
 //    }
 
     /**

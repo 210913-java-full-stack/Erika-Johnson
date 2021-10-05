@@ -2,8 +2,6 @@ package DAOs;
 
 import exceptions.BadUserException;
 import models.AccountModel;
-import models.UserModel;
-import utility.ViewManager;
 import utility.datastructures.MyArrayList;
 import java.sql.*;
 
@@ -46,6 +44,7 @@ public class AccountDAO implements AccountCrud {
         bankAcctStmt.setInt(1, newAccountId);
         bankAcctStmt.setString(2, account_type);
         bankAcctStmt.setDouble(3, 0);
+        bankAcctStmt.executeUpdate();
         }
 
     @Override
@@ -73,6 +72,51 @@ public class AccountDAO implements AccountCrud {
         updateAcctBalance.setDouble(2, balance);
         updateAcctBalance.executeUpdate();
         return true;
+    }
+
+    @Override
+    public boolean withdrawAcct(int account_id, double balance) throws SQLException {
+        String sql =  "SELECT account_id FROM accounts WHERE account_id = ?";
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        pstmt.setInt(1, account_id);
+        ResultSet rs = pstmt.executeQuery();
+        String account_type = rs.getString("account_type");
+        String balance1 = rs.getString("balance");
+
+        if(rs.next()){
+            System.out.println("Account_id already taken");
+        }else {
+        String withdrawSql = "UPDATE accounts a SET balance = balance - ? WHERE account_id = ?";
+        PreparedStatement withdrawBal = conn.prepareStatement(withdrawSql);
+        withdrawBal.setInt(1, account_id);
+        withdrawBal.setDouble(2, balance);
+        withdrawBal.executeUpdate();
+        System.out.println("Your balance account type is:" + account_type + "your balance" + balance1);
+        return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean depositAcct(int account_id, double balance) throws SQLException {
+        String sql =  "SELECT account_id FROM accounts WHERE account_id = ?";
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        pstmt.setInt(1, account_id);
+        ResultSet rs = pstmt.executeQuery();
+        String account_type = rs.getString("account_type");
+        String balance2 = rs.getString("balance");
+        System.out.println("Your balance account type is:" + account_type + "your balance" + balance2);
+        if(rs.next()) {
+            System.out.println("Account_id already taken");
+        }else{
+            String depositSql = "UPDATE accounts a SET balance = balance + ? WHERE account_id = ?";
+            PreparedStatement depositBal = conn.prepareStatement(depositSql);
+            depositBal.setInt(1, account_id);
+            depositBal.setDouble(2, balance);
+            depositBal.executeUpdate();
+            return true;
+        }
+     return false;
     }
 
     @Override

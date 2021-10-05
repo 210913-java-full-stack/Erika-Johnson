@@ -12,6 +12,6 @@ public interface AccountCrud<E> {
     public void CreateBankAcct(String account_type, int user_id) throws SQLException, BadUserException;
     public AccountModel getItemById(int account_id) throws SQLException;
     public MyArrayList<E> getUserAccount(int user_id) throws SQLException;
-    public boolean withdrawAcct();
-    public boolean depositAcct();
+    public boolean withdrawAcct(int account_id, double balance) throws SQLException;
+    public boolean depositAcct(int account_id, double balance) throws SQLException;
 }
