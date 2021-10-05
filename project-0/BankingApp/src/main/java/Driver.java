@@ -1,6 +1,5 @@
 
 import exceptions.BadUserException;
-import utility.ConnectionManager;
 import utility.ViewManager;
 
 import java.io.IOException;

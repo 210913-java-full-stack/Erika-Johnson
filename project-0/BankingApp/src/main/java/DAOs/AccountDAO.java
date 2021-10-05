@@ -1,6 +1,9 @@
 package DAOs;
 
+import exceptions.BadUserException;
 import models.AccountModel;
+import models.UserModel;
+import utility.ViewManager;
 import utility.datastructures.MyArrayList;
 import java.sql.*;
 
@@ -14,23 +17,36 @@ public class AccountDAO implements AccountCrud {
 //To create another bank account need the user_id
 // need to perhaps populate the junction table first with a new account
 
+    public int newAccountId;
     @Override
-    public void save(AccountModel row) throws SQLException {
-        String sql = "SELECT account_id FROM accounts WHERE account_id =?";
-        PreparedStatement pstmt = conn.prepareStatement(sql);
-        pstmt.setInt(1, row.getAccount_id());
-        ResultSet rs = pstmt.executeQuery();
-        if (rs.next()) {
-            System.out.println("Account_id taken");
-        } else {
-            String userAcct = "INSERT INTO accounts (account_id, account_type, balance) VALUES (?,?,?)";
-            PreparedStatement prepState = conn.prepareStatement(userAcct);
-            prepState.setInt(1, row.getAccount_id());
-            prepState.setString(2, row.getAccountType());
-            prepState.setDouble(3, row.getBalance());
-            prepState.executeUpdate();
+  public int getBankAccountKey() throws SQLException {
+      String sql ="SELECT * FROM customer_accounts";
+      PreparedStatement getAccountId = conn.prepareStatement(sql);
+      ResultSet resultSet = getAccountId.executeQuery();
+
+      while(resultSet.next()) {
+          newAccountId = resultSet.getInt("account_id");
+      }
+      return newAccountId;
+  }
+
+    @Override
+    public void CreateBankAcct(String account_type, int user_id) throws SQLException {
+      getBankAccountKey();
+
+        String insertStmt = "INSERT INTO customer_accounts (user_id, account_id) VALUES (?, ?)";
+        PreparedStatement preparedInsertStatement = conn.prepareStatement(insertStmt);
+        preparedInsertStatement.setInt(1, user_id );
+        newAccountId++;
+        preparedInsertStatement.setInt(2, newAccountId);
+        preparedInsertStatement.executeUpdate();
+
+        String bankAcct = "INSERT INTO accounts (account_id, account_type, balance) VALUES (?,?,?)";
+        PreparedStatement bankAcctStmt = conn.prepareStatement(bankAcct);
+        bankAcctStmt.setInt(1, newAccountId);
+        bankAcctStmt.setString(2, account_type);
+        bankAcctStmt.setDouble(3, 0);
         }
-    }
 
 
     @Override

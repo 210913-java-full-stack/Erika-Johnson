@@ -10,24 +10,23 @@ public class AccountModel {
     private int account_id;
     private String account_type;
     private double balance;
-    private AccountDAO AccountDao;
 
-    public AccountModel() throws SQLException, IOException {
-        this.AccountDao= new AccountDAO(ConnectionManager.getConnection());
+    public AccountModel()  {
+
     }
 
-    public AccountModel(int account_id, String accountType, double balance) {
+    public AccountModel(int account_id, String account_type, double balance) {
         this.account_id = account_id;
         this.account_type = account_type;
         this.balance = balance;
     }
 
-    public String getAccountType() {
+    public String getAccount_type() {
         return account_type;
     }
 
-    public void setAccountType(String accountType) {
-        this.account_type = accountType;
+    public void setAccount_type(String account_type) {
+        this.account_type = account_type;
     }
 
     public int getAccount_id() {

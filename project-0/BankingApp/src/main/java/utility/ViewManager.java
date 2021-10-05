@@ -1,5 +1,6 @@
 package utility;
 import exceptions.BadUserException;
+import models.AccountModel;
 import models.UserModel;
 import utility.datastructures.MyArrayList;
 import views.*;
@@ -23,6 +24,7 @@ public class ViewManager {
     private Connection conn;
     private Scanner scanner;
     private UserModel currentUser;
+    private AccountModel currentAccount;
 
     public ViewManager() {
        viewManager = this;
@@ -91,5 +93,13 @@ public class ViewManager {
 
     public void setCurrentUser(UserModel currentUser) {
         this.currentUser = currentUser;
+    }
+
+    public AccountModel getCurrentAccount() {
+        return currentAccount;
+    }
+
+    public void setCurrentAccount(AccountModel currentAccount) {
+        this.currentAccount = currentAccount;
     }
 }

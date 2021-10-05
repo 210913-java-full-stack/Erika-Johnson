@@ -122,7 +122,6 @@ public class UserDAO implements UserCrud {
                  // then store that object with viewManager.setCurrentUser(user), then whenever you need to know who is logged in,
                  //just get it with the getter method. UserModel user =  viewManager.getCurrentUser();
                  return true;
-
                 }
          }
             return false;

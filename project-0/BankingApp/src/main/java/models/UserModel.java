@@ -54,50 +54,5 @@ public class UserModel {
         return this.user_id + " - " + this.username + " - " + this.email;
     }
 
-
-
-    /**
-     * Password validation for registration
-     * @param password
-     */
-    public void passwordValidate(String password) {
-        if(password.length() > 7) {
-            if(checkPassword(password))
-            System.out.println("Password Valid");
-        }else{
-            System.out.println("Invalid Password, not long enough");
-        }
-    }
-
-    /**
-     * Checks to see if password has at least 1 Uppercase,1 Lowercase & 1 number & 1 special character
-     * Will loop through every single character within the string password
-     * Assign c to the new character we will be looping through
-     * Loop through password checking to see if it meets the requirements
-     * If all 3 requirements are met password is valid
-     * @param password
-     * @return
-     */
-    public boolean checkPassword(String password) {
-        boolean hasNum = false;
-        boolean hasCap = false;
-        boolean hasLow = false;
-        char c;
-
-        for (int i = 0; i < password.length(); i++) {
-            c = password.charAt(i);
-            if (Character.isDigit(c)) {
-                hasNum = true;
-            } else if (Character.isUpperCase(c)) {
-                hasCap = true;
-            } else if (Character.isLowerCase(c)) {
-                hasLow = true;
-            }
-            if (hasCap && hasLow && hasNum) {
-                return true;
-            }
-        }
-        return false;
-    }
 }
 

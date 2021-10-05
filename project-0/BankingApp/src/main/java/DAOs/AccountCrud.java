@@ -1,14 +1,14 @@
 package DAOs;
 
+import exceptions.BadUserException;
 import models.AccountModel;
 import utility.datastructures.MyArrayList;
-
 import java.sql.SQLException;
-import java.util.List;
+
 
 public interface AccountCrud<E> {
-//    public int getAccountKey() throws SQLException;
-    public void save(AccountModel row) throws SQLException;
+    public int getBankAccountKey() throws SQLException;
+    public void CreateBankAcct(String account_type, int user_id) throws SQLException, BadUserException;
     public AccountModel getItemById(int account_id) throws SQLException;
     public MyArrayList<E> getAllItems() throws SQLException;
     public void deleteById(int account_id);

@@ -5,7 +5,7 @@ public class BadUserException extends Exception {
         super(message);
     }
     public BadUserException(){
-        super("The user is invalid");
+        super("The user or id is invalid");
     }
-
 }
+
