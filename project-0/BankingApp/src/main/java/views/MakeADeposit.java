@@ -13,6 +13,7 @@ public class MakeADeposit extends View{
         System.out.print("Make a deposit:");
 
         System.out.println("Deposit successful");
+
         viewManager.navigate("ViewBankMenu");
     }
 }

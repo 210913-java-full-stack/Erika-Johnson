@@ -98,6 +98,10 @@ public class UserDAO implements UserCrud {
 
     /**User Login maybe a boolean if user logged in return true or false
      *use getString() not setString() because retrieving data from db*/
+    /** Lines (120 - 124) before returning true, marshall these results into a UserModel object
+     *then store that object with viewManager.setCurrentUser(user), then whenever you need to know who is logged in,
+     *just get it with the getter method. UserModel user =  viewManager.getCurrentUser();
+     */
 
     @Override
     public boolean authenticate (String log, String pass) throws SQLException {
@@ -108,11 +112,6 @@ public class UserDAO implements UserCrud {
             String sql = "SELECT * FROM users";//change this to * instead of username and pass select * from users
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery(sql);
-
-        /** Lines (122 - 125) before returning true, marshall these results into a UserModel object
-         *then store that object with viewManager.setCurrentUser(user), then whenever you need to know who is logged in,
-         *just get it with the getter method. UserModel user =  viewManager.getCurrentUser();
-         */
 
         while(rs.next()) {
              user = rs.getString("username");

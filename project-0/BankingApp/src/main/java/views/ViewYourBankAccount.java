@@ -1,9 +1,7 @@
 package views;
 import DAOs.AccountDAO;
-import DAOs.UserDAO;
 import models.AccountModel;
 import models.UserModel;
-import utility.ViewManager;
 import utility.datastructures.MyArrayList;
 
 import java.sql.SQLException;
@@ -30,6 +28,9 @@ public class ViewYourBankAccount extends View{
             System.out.println(" ");
             System.out.println(bankList.get(i));
         }
+//
+//        NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
+//        System.out.println(formatter.format(amt));
         viewManager.navigate("ViewBankMenu");
     }
 }

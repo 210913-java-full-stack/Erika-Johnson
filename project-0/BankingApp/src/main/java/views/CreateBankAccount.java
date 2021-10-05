@@ -16,7 +16,7 @@ public class CreateBankAccount extends View{
     public void renderView() throws SQLException, IOException {
      AccountDAO accountdao = new AccountDAO(viewManager.getConn());
      AccountModel bankNewModel = new AccountModel();
-     ViewManager.getViewManager().getCurrentUser();
+     UserModel user =  viewManager.getCurrentUser();
 
      System.out.print("Please enter savings or checking for type of account:");
      String account_type = scanner.nextLine();

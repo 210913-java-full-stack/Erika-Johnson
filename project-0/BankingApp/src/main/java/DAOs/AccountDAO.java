@@ -65,8 +65,15 @@ public class AccountDAO implements AccountCrud {
         return resultList;
     }
 
-
-
+    @Override
+    public boolean updateAcct(int account_id, double balance) throws SQLException {
+        String updateSql = "UPDATE accounts a SET balance = ? WHERE account_id = ?";
+        PreparedStatement updateAcctBalance = conn.prepareStatement(updateSql);
+        updateAcctBalance.setInt(1, account_id);
+        updateAcctBalance.setDouble(2, balance);
+        updateAcctBalance.executeUpdate();
+        return true;
+    }
 
     @Override
     public AccountModel getItemById(int account_id) throws SQLException {
