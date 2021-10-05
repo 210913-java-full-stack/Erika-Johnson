@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public interface UserCrud<E> {
 
-    /**query data from db, fill in empty object model*/
+    /**Query data from db, fill in empty object model*/
 
         public int trackUserId() throws SQLException;
         public MyArrayList<E> getQuery() throws SQLException;
@@ -18,5 +18,4 @@ public interface UserCrud<E> {
         public void save(UserModel row) throws SQLException, BadUserException;
         public UserModel getItemByID(int user_id) throws SQLException;
         public MyArrayList<E> getAllItems() throws SQLException;
-           //public UserModel getItemBykeyword(String keyword); //SELECT * FROM items WHERE firstname LIKE "KEYWORD%"
 }

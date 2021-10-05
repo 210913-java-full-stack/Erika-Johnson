@@ -1,11 +1,5 @@
 package models;
 
-import DAOs.AccountDAO;
-import utility.ConnectionManager;
-
-import java.io.IOException;
-import java.sql.SQLException;
-
 public class AccountModel {
     private int account_id;
     private String account_type;
