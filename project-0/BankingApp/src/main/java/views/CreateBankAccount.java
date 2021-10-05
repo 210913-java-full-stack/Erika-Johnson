@@ -16,14 +16,13 @@ public class CreateBankAccount extends View{
     public void renderView() throws SQLException, IOException {
      AccountDAO accountdao = new AccountDAO(viewManager.getConn());
      AccountModel bankNewModel = new AccountModel();
-     UserModel user =  viewManager.getCurrentUser();
+     ViewManager.getViewManager().getCurrentUser();
 
      System.out.print("Please enter savings or checking for type of account:");
      String account_type = scanner.nextLine();
      System.out.println("C");
      bankNewModel.setAccount_type(account_type);
-     bankNewModel.setBalance(0);
-     accountdao.CreateBankAcct(bankNewModel.getAccount_type(), user.getUser_id());
+     accountdao.CreateBankAcct(bankNewModel.getAccount_type(), bankNewModel.getAccount_id());
      System.out.println("D");
      System.out.println("Your account has been created");
 

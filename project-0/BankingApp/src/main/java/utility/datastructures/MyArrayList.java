@@ -25,7 +25,7 @@ public class MyArrayList<E> implements MyArrayInterface <E>, Iterable<E>{
 
     @Override
     public int size() {
-        return this.size; //this refers to current size
+        return size; //this refers to current size
     }
 
 /** Appends the specified element to the end of this list.

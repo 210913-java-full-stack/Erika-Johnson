@@ -18,8 +18,6 @@ public class ViewLogin extends View{
     public void renderView() throws SQLException {
         UserDAO userdao = new UserDAO(viewManager.getConn());
 
-
-
         System.out.print("Enter Username:");
         String user = scanner.nextLine();
         System.out.print("Enter Password:");

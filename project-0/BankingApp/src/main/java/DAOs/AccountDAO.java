@@ -48,40 +48,40 @@ public class AccountDAO implements AccountCrud {
         bankAcctStmt.setDouble(3, 0);
         }
 
-
     @Override
-    public AccountModel getItemById(int account_id) throws SQLException {
-      String sql = "SELECT * FROM accounts WHERE account_id = ?";
-      PreparedStatement pstmt = conn.prepareStatement(sql);
-      pstmt.setInt(1, account_id);
-      ResultSet rs = pstmt.executeQuery();
-
-      if(rs.next()) {
-          return new AccountModel(rs.getInt("account_id"), (rs.getString("account_type")),
-                  (rs.getDouble("balance")));
-      }else {
-          return null;
-      }
-
-    }
-
-    @Override
-    public MyArrayList<AccountModel> getAllItems() throws SQLException {
-        String sql = "SELECT * FROM accounts";
-        Statement stat = conn.createStatement();
-        ResultSet rs = stat.executeQuery(sql);
+    public MyArrayList<AccountModel> getUserAccount(int user_id) throws SQLException {
+        String userAcctSql = "SELECT * FROM accounts a JOIN customer_accounts ca ON a.account_id = ca.account_id WHERE user_id = ?";
+        PreparedStatement prepState = conn.prepareStatement(userAcctSql);
+        prepState.setInt(1, user_id);
+        ResultSet rs = prepState.executeQuery();
 
         MyArrayList<AccountModel> resultList = new MyArrayList();
+
         while (rs.next()) {
-            AccountModel newItem = new AccountModel(rs.getInt("account_id"),
-                    rs.getString("account_type"), rs.getInt("balance"));
-            resultList.add(newItem);
+            AccountModel newAcctItem = new AccountModel(rs.getInt("account_id"),
+                    rs.getString("account_type"), rs.getDouble("balance"));
+            resultList.add(newAcctItem);
         }
         return resultList;
     }
 
+
+
+
     @Override
-    public void deleteById(int account_id) {
+    public AccountModel getItemById(int account_id) throws SQLException {
+        String sql = "SELECT * FROM accounts WHERE account_id = ?";
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        pstmt.setInt(1, account_id);
+        ResultSet rs = pstmt.executeQuery();
+
+        if(rs.next()) {
+            return new AccountModel(rs.getInt("account_id"), (rs.getString("account_type")),
+                    (rs.getDouble("balance")));
+        }else {
+            return null;
+        }
 
     }
+
 }

@@ -10,8 +10,9 @@ public class MakeADeposit extends View{
 
     @Override
     public void renderView() throws SQLException {
+        System.out.print("Make a deposit:");
 
-
+        System.out.println("Deposit successful");
         viewManager.navigate("ViewBankMenu");
     }
 }

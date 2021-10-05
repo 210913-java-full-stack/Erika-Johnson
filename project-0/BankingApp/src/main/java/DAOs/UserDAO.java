@@ -109,7 +109,12 @@ public class UserDAO implements UserCrud {
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery(sql);
 
-            while(rs.next()) {
+        /** Lines (122 - 125) before returning true, marshall these results into a UserModel object
+         *then store that object with viewManager.setCurrentUser(user), then whenever you need to know who is logged in,
+         *just get it with the getter method. UserModel user =  viewManager.getCurrentUser();
+         */
+
+        while(rs.next()) {
              user = rs.getString("username");
              password = rs.getString("password");
              if(user.equals(log) && (password.equals(pass))){
@@ -118,9 +123,7 @@ public class UserDAO implements UserCrud {
                  currentUser.setUsername(rs.getString("username"));
                  currentUser.setPassword(rs.getString("password"));
                  ViewManager.getViewManager().setCurrentUser(currentUser);
-                 //before returning true, marshall these results into a UserModel object
-                 // then store that object with viewManager.setCurrentUser(user), then whenever you need to know who is logged in,
-                 //just get it with the getter method. UserModel user =  viewManager.getCurrentUser();
+
                  return true;
                 }
          }
@@ -152,7 +155,6 @@ public class UserDAO implements UserCrud {
 
     //       String userInfo = "SELECT username, account_type, balance FROM users u " +
 //               "JOIN customer_accounts ca ON u.user_id = ca.user_id " +
-//               "JOIN accounts a ON ca.account_id = a.account_id ORDER BY a.balance desc";
 
 
     @Override

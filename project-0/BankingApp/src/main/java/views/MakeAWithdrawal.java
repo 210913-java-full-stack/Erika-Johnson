@@ -10,7 +10,9 @@ public class MakeAWithdrawal extends View{
 
     @Override
     public void renderView() throws SQLException {
+        System.out.print("Make a withdrawal:");
 
+        System.out.println("Withdrawal successful");
 
         viewManager.navigate("ViewBankMenu");
     }
