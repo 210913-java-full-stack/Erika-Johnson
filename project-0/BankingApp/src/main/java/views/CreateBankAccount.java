@@ -24,7 +24,7 @@ public class CreateBankAccount extends View{
      bankNewModel.setAccount_id(accountdao.newAccountId);
      accountdao.trackAcctId();
      System.out.println("E");
-     accountdao.CreateBankAcct(bankNewModel.getAccount_type(), accountdao.newAccountId);
+     accountdao.CreateBankAcct(bankNewModel.getAccount_type(), user.getUser_id());
      System.out.println("D");
      System.out.println("Your" + " " + account_type + " " + "has been created");
      System.out.println("The account id assigned to this account is" + " " + accountdao.newAccountId);

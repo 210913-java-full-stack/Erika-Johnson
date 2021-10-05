@@ -35,40 +35,29 @@ public class AccountDAO implements AccountCrud {
     //I would suggest: Query the accounts table in the constructor, looking for the current greatest ID,
     // then increment it once.
     //Also, if we need to do the same sort of tracking of IDs for user, just re-use very similar code as this.
+    //////////////DEBUG>>??????????//////////////////////////////
     @Override
-    public void trackAcctId() throws SQLException {
+    public int trackAcctId() throws SQLException {
         getBankAccountKey();
         String trackAcctISql = "SELECT account_id FROM accounts ORDER BY account_id DESC LIMIT 1";
         PreparedStatement storeAcctId = conn.prepareStatement(trackAcctISql);
-        storeAcctId.setInt(1, newAccountId);
+//        storeAcctId.setInt(1, newAccountId);
         ResultSet resultSet = storeAcctId.executeQuery();
         //...write the JDBC stuff to use this statement
         if(resultSet.next()) {
-            resultSet.getInt("account_id");
-            newAccountId++;
+            newAccountId = resultSet.getInt("account_id");
+           return newAccountId;
             //increment the number once and store it.
         } else {
-           newAccountId = 0;
+          return (newAccountId = 0);
             //if no results came back. then the table is empty, start with 0;
         }
     }
 
-
-//    String caUsers= "SELECT ca.user_id FROM customer_accounts ca " +
-//            "JOIN users u ON ca.user_id = u.user_id " +
-//            "JOIN accounts a ON ca.account_id = a.account_id WHERE ca.user_id = ?";
     @Override
     public void CreateBankAcct(String account_type, int user_id) throws SQLException {
       getBankAccountKey();
       trackAcctId();
-//        String caUsers =  "SELECT ca.user_id FROM customer_accounts ca WHERE user_id = ?";
-//        PreparedStatement stmt = conn.prepareStatement(caUsers);
-//        stmt.setInt(1, user_id);
-//        ResultSet rs = stmt.executeQuery();
-//        if(rs.next()) {
-//            System.out.println(rs.getInt("user_id"));
-//            if (rs.getInt("user_id") == user_id) {
-
                 String insertStmt = "INSERT INTO customer_accounts (user_id, account_id) VALUES (?, ?)";
                 PreparedStatement preparedInsertStatement = conn.prepareStatement(insertStmt);
                 preparedInsertStatement.setInt(1, user_id );

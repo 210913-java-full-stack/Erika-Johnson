@@ -28,10 +28,13 @@ public class ViewYourBankAccount extends View{
 //        NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
 //        String moneyString = formatter.format(balance);
 
+        NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
         for(int i = 0; i < bankList.size(); i++){
             System.out.println("======Your Bank Accounts======");
             System.out.println(" ");
-            System.out.println(bankList.get(i));
+            System.out.println(bankList.get(i).getAccount_id() + " - " + bankList.get(i).getAccount_type() +
+                   " " + formatter.format(bankList.get(i).getBalance()));
+
         }
 
 

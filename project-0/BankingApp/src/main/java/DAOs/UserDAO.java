@@ -18,24 +18,6 @@ public class UserDAO implements UserCrud {
         this.conn = conn;
     }
 
-    @Override
-    public void trackUserId() throws SQLException {
-        getUserKey();
-        String trackAcctSql = "SELECT user_id FROM users ORDER BY user_id DESC LIMIT 1";
-        PreparedStatement storeUserId = conn.prepareStatement(trackAcctSql);
-        storeUserId.setInt(1, newUserId);
-        ResultSet resultSet = storeUserId.executeQuery();
-        //...write the JDBC stuff to use this statement
-        if(resultSet.next()) {
-            resultSet.getInt("user_id");
-            newUserId++;
-            //increment the number once and store it.
-        } else {
-            newUserId = 0;
-            //if no results came back. then the table is empty, start with 0;
-        }
-    }
-
     /**Returning the user_id to allow user to register for an account*/
     public int newUserId;
     @Override
@@ -49,6 +31,26 @@ public class UserDAO implements UserCrud {
         }
         return newUserId;
     }
+
+    //////////////DEBUG>>??????????//////////////////////////////
+    @Override
+    public int trackUserId() throws SQLException {
+        getUserKey();
+        String trackAcctSql = "SELECT user_id FROM users ORDER BY user_id DESC LIMIT 1";
+        PreparedStatement storeUserId = conn.prepareStatement(trackAcctSql);
+        ResultSet resultSet = storeUserId.executeQuery();
+        //...write the JDBC stuff to use this statement
+        if(resultSet.next()) {
+            newUserId = resultSet.getInt("user_id");
+           return newUserId;
+            //increment the number once and store it.
+        } else {
+            return (newUserId = 0);
+            //if no results came back. then the table is empty, start with 0;
+        }
+    }
+    ////////////////////////////////////////////////////////////////////////////////////
+
     /**Returning the account_id to allow user to create a bank account*/
     public int newAccountId;
     @Override

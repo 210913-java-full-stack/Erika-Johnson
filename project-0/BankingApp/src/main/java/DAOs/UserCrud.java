@@ -10,7 +10,7 @@ public interface UserCrud<E> {
 
     /**query data from db, fill in empty object model*/
 
-        public void trackUserId() throws SQLException;
+        public int trackUserId() throws SQLException;
         public MyArrayList<E> getQuery() throws SQLException;
         public boolean authenticate (String log, String pass)throws SQLException;
         public int getAccountKey() throws SQLException;
