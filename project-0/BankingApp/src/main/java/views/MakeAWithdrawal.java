@@ -19,7 +19,7 @@ public class MakeAWithdrawal extends View{
         AccountModel acctModel = new AccountModel();
         UserModel user =  viewManager.getCurrentUser();
 
-        System.out.println("Enter Account #:");
+        System.out.print("Enter Account #:");
         int accountId = scanner.nextInt();
         System.out.println("A");
         System.out.print("Make a withdrawal:");
@@ -28,10 +28,10 @@ public class MakeAWithdrawal extends View{
         //if statement
         acctModel.setAccount_id(accountId);
         acctModel.setBalance(balance);
-        acctdao.withdrawAcct(int a)
+        acctdao.withdrawAcct(accountId, balance);
         System.out.println("C");
         ViewManager.getViewManager().getCurrentUser();
-        System.out.println("Withdrawal successful" + "you withdrew:" + balance);
+        System.out.println("your withdrawal was successful" + "you withdrew:" + balance);
 
         viewManager.navigate("ViewBankMenu");
     }

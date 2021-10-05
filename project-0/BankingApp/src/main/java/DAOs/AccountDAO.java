@@ -74,47 +74,59 @@ public class AccountDAO implements AccountCrud {
         return true;
     }
 
+    /**
+     * First check the account_id's within the accounts table.
+     *Next check to see if the account_id matches the account_id the user wants
+     * If so, update account to the amount the user wants to deposit or withdraw.
+     * Else if account_id doesn't match before depositing throw user a response stating account_id is invalid.
+     * @param account_id
+     * @param balance
+     * @return
+     * @throws SQLException
+     */
+
     @Override
     public boolean withdrawAcct(int account_id, double balance) throws SQLException {
-        String sql =  "SELECT account_id FROM accounts WHERE account_id = ?";
+        String sql =  "SELECT a.account_id FROM accounts a WHERE account_id = ?";
         PreparedStatement pstmt = conn.prepareStatement(sql);
         pstmt.setInt(1, account_id);
         ResultSet rs = pstmt.executeQuery();
-        String account_type = rs.getString("account_type");
-        String balance1 = rs.getString("balance");
 
         if(rs.next()){
-            System.out.println("Account_id already taken");
+            System.out.println(rs.getInt("account_id"));
+           if(rs.getInt("account_id") == account_id) {
+               String withdrawSql = "UPDATE accounts a SET a.balance = (a.balance - ?) WHERE account_id = ?";
+               PreparedStatement withdrawBal = conn.prepareStatement(withdrawSql);
+               withdrawBal.setDouble(1, balance);
+               withdrawBal.setInt(2, account_id);
+               withdrawBal.executeUpdate();
+               return true;
+           }
         }else {
-        String withdrawSql = "UPDATE accounts a SET balance = balance - ? WHERE account_id = ?";
-        PreparedStatement withdrawBal = conn.prepareStatement(withdrawSql);
-        withdrawBal.setInt(1, account_id);
-        withdrawBal.setDouble(2, balance);
-        withdrawBal.executeUpdate();
-        System.out.println("Your balance account type is:" + account_type + "your balance" + balance1);
-        return true;
+            System.out.println("Account_id is invalid");
         }
         return false;
     }
 
     @Override
     public boolean depositAcct(int account_id, double balance) throws SQLException {
-        String sql =  "SELECT account_id FROM accounts WHERE account_id = ?";
+        String sql =  "SELECT a.account_id FROM accounts a WHERE account_id = ?";
         PreparedStatement pstmt = conn.prepareStatement(sql);
         pstmt.setInt(1, account_id);
         ResultSet rs = pstmt.executeQuery();
-        String account_type = rs.getString("account_type");
-        String balance2 = rs.getString("balance");
-        System.out.println("Your balance account type is:" + account_type + "your balance" + balance2);
+
         if(rs.next()) {
-            System.out.println("Account_id already taken");
+            System.out.println(rs.getInt("account_id"));
+            if(rs.getInt("account_id") == account_id) {
+                String depositSql = "UPDATE accounts a SET a.balance = (a.balance + ?) WHERE account_id = ?";
+                PreparedStatement depositBal = conn.prepareStatement(depositSql);
+                depositBal.setDouble(1, balance);
+                depositBal.setInt(2, account_id);
+                depositBal.executeUpdate();
+                return true;
+            }
         }else{
-            String depositSql = "UPDATE accounts a SET balance = balance + ? WHERE account_id = ?";
-            PreparedStatement depositBal = conn.prepareStatement(depositSql);
-            depositBal.setInt(1, account_id);
-            depositBal.setDouble(2, balance);
-            depositBal.executeUpdate();
-            return true;
+            System.out.println("Account_id invalid");
         }
      return false;
     }
