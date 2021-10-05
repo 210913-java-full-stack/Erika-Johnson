@@ -152,10 +152,6 @@ public class UserDAO implements UserCrud {
         }
     }
 
-    //       String userInfo = "SELECT username, account_type, balance FROM users u " +
-//               "JOIN customer_accounts ca ON u.user_id = ca.user_id " +
-
-
     @Override
     public MyArrayList<UserModel> getAllItems() throws SQLException {
         String sql = "SELECT * FROM users";

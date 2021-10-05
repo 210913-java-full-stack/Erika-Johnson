@@ -9,9 +9,12 @@ public class AccountDAO implements AccountCrud {
 
   private Connection conn;
 
-  public AccountDAO(Connection conn) {
-      this.conn = conn;
-  }
+    public AccountDAO(Connection conn) {
+        this.conn = conn;
+
+    }
+
+
 //To create another bank account need the user_id
 // need to perhaps populate the junction table first with a new account
 
@@ -27,25 +30,60 @@ public class AccountDAO implements AccountCrud {
       }
       return newAccountId;
   }
+    //We need to maintain the account ID that we create new rows with, so far we track it with newAccountId, which
+    //increments. Now we just need to make sure we resume that count when we restart the app.
+    //I would suggest: Query the accounts table in the constructor, looking for the current greatest ID,
+    // then increment it once.
+    //Also, if we need to do the same sort of tracking of IDs for user, just re-use very similar code as this.
+    @Override
+    public void trackAcctId() throws SQLException {
+        getBankAccountKey();
+        String trackAcctISql = "SELECT account_id FROM accounts ORDER BY account_id DESC LIMIT 1";
+        PreparedStatement storeAcctId = conn.prepareStatement(trackAcctISql);
+        storeAcctId.setInt(1, newAccountId);
+        ResultSet resultSet = storeAcctId.executeQuery();
+        //...write the JDBC stuff to use this statement
+        if(resultSet.next()) {
+            resultSet.getInt("account_id");
+            newAccountId++;
+            //increment the number once and store it.
+        } else {
+           newAccountId = 0;
+            //if no results came back. then the table is empty, start with 0;
+        }
+    }
 
+
+//    String caUsers= "SELECT ca.user_id FROM customer_accounts ca " +
+//            "JOIN users u ON ca.user_id = u.user_id " +
+//            "JOIN accounts a ON ca.account_id = a.account_id WHERE ca.user_id = ?";
     @Override
     public void CreateBankAcct(String account_type, int user_id) throws SQLException {
       getBankAccountKey();
+      trackAcctId();
+//        String caUsers =  "SELECT ca.user_id FROM customer_accounts ca WHERE user_id = ?";
+//        PreparedStatement stmt = conn.prepareStatement(caUsers);
+//        stmt.setInt(1, user_id);
+//        ResultSet rs = stmt.executeQuery();
+//        if(rs.next()) {
+//            System.out.println(rs.getInt("user_id"));
+//            if (rs.getInt("user_id") == user_id) {
 
-        String insertStmt = "INSERT INTO customer_accounts (user_id, account_id) VALUES (?, ?)";
-        PreparedStatement preparedInsertStatement = conn.prepareStatement(insertStmt);
-        preparedInsertStatement.setInt(1, user_id );
-        newAccountId++;
-        preparedInsertStatement.setInt(2, newAccountId);
-        preparedInsertStatement.executeUpdate();
+                String insertStmt = "INSERT INTO customer_accounts (user_id, account_id) VALUES (?, ?)";
+                PreparedStatement preparedInsertStatement = conn.prepareStatement(insertStmt);
+                preparedInsertStatement.setInt(1, user_id );
+                newAccountId++;
+                preparedInsertStatement.setInt(2, newAccountId);
+                preparedInsertStatement.executeUpdate();
 
-        String bankAcct = "INSERT INTO accounts (account_id, account_type, balance) VALUES (?,?,?)";
-        PreparedStatement bankAcctStmt = conn.prepareStatement(bankAcct);
-        bankAcctStmt.setInt(1, newAccountId);
-        bankAcctStmt.setString(2, account_type);
-        bankAcctStmt.setDouble(3, 0);
-        bankAcctStmt.executeUpdate();
-        }
+                String bankAcct = "INSERT INTO accounts (account_id, account_type, balance) VALUES (?,?,?)";
+                PreparedStatement bankAcctStmt = conn.prepareStatement(bankAcct);
+                bankAcctStmt.setInt(1, newAccountId);
+                bankAcctStmt.setString(2, account_type);
+                bankAcctStmt.setDouble(3, 0);
+                bankAcctStmt.executeUpdate();
+            }
+
 
     @Override
     public MyArrayList<AccountModel> getUserAccount(int user_id) throws SQLException {
@@ -126,7 +164,7 @@ public class AccountDAO implements AccountCrud {
                 return true;
             }
         }else{
-            System.out.println("Account_id invalid");
+            System.out.println("Account_id is invalid");
         }
      return false;
     }

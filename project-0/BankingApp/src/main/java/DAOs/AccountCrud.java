@@ -7,6 +7,7 @@ import java.sql.SQLException;
 
 
 public interface AccountCrud<E> {
+    public void trackAcctId() throws SQLException;
     public int getBankAccountKey() throws SQLException;
     public boolean updateAcct(int account_id, double balance) throws SQLException;
     public void CreateBankAcct(String account_type, int user_id) throws SQLException, BadUserException;

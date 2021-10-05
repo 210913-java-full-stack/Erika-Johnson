@@ -6,6 +6,8 @@ import models.UserModel;
 import utility.ViewManager;
 
 import java.sql.SQLException;
+import java.text.NumberFormat;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class MakeAWithdrawal extends View{
@@ -19,19 +21,23 @@ public class MakeAWithdrawal extends View{
         AccountModel acctModel = new AccountModel();
         UserModel user =  viewManager.getCurrentUser();
 
+
         System.out.print("Enter Account #:");
         int accountId = scanner.nextInt();
         System.out.println("A");
         System.out.print("Make a withdrawal:");
         Double balance = scanner.nextDouble();
+        NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
+        String moneyString = formatter.format(balance);
         System.out.println("B");
-        //if statement
         acctModel.setAccount_id(accountId);
         acctModel.setBalance(balance);
         acctdao.withdrawAcct(accountId, balance);
         System.out.println("C");
-        ViewManager.getViewManager().getCurrentUser();
-        System.out.println("your withdrawal was successful" + "you withdrew:" + balance);
+
+        System.out.println("Your withdrawal was successful, you withdrew" + " " + moneyString);
+
+
 
         viewManager.navigate("ViewBankMenu");
     }

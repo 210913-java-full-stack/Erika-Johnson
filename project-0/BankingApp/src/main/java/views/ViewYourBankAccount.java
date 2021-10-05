@@ -21,19 +21,23 @@ public class ViewYourBankAccount extends View{
         AccountDAO acctDao = new AccountDAO(viewManager.getConn());
         AccountModel acctModel = new AccountModel();
         UserModel user =  viewManager.getCurrentUser();
-//        NumberFormat nf = NumberFormat.getInstance(Locale.US);
+
 
         MyArrayList<AccountModel> bankList;
         bankList = acctDao.getUserAccount(user.getUser_id());
+//        NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
+//        String moneyString = formatter.format(balance);
 
         for(int i = 0; i < bankList.size(); i++){
             System.out.println("======Your Bank Accounts======");
             System.out.println(" ");
-            System.out.println(bankList.get(i)); //Format currency here
+            System.out.println(bankList.get(i));
         }
-//
-//        NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
-//        System.out.println(formatter.format(amt));
+
+
+
         viewManager.navigate("ViewBankMenu");
     }
+
+
 }

@@ -1,8 +1,5 @@
 package views;
 
-import models.TestModel;
-import models.UserModel;
-
 import java.util.Scanner;
 
 /**
