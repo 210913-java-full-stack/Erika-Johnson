@@ -22,6 +22,7 @@ public class CreateBankAccount extends View{
      System.out.println("C");
      bankNewModel.setAccount_type(account_type);
      bankNewModel.setAccount_id(accountdao.newAccountId);
+     accountdao.trackAcctId();
      System.out.println("E");
      accountdao.CreateBankAcct(bankNewModel.getAccount_type(), accountdao.newAccountId);
      System.out.println("D");

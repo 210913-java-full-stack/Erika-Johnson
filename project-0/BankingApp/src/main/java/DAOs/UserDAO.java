@@ -18,6 +18,24 @@ public class UserDAO implements UserCrud {
         this.conn = conn;
     }
 
+    @Override
+    public void trackUserId() throws SQLException {
+        getUserKey();
+        String trackAcctSql = "SELECT user_id FROM users ORDER BY user_id DESC LIMIT 1";
+        PreparedStatement storeUserId = conn.prepareStatement(trackAcctSql);
+        storeUserId.setInt(1, newUserId);
+        ResultSet resultSet = storeUserId.executeQuery();
+        //...write the JDBC stuff to use this statement
+        if(resultSet.next()) {
+            resultSet.getInt("user_id");
+            newUserId++;
+            //increment the number once and store it.
+        } else {
+            newUserId = 0;
+            //if no results came back. then the table is empty, start with 0;
+        }
+    }
+
     /**Returning the user_id to allow user to register for an account*/
     public int newUserId;
     @Override
@@ -45,6 +63,7 @@ public class UserDAO implements UserCrud {
         return newAccountId;
     }
 
+
     /**
      * Checks to see what user_id is available if already in use will through an exception
      * Pass in getAccountKey() and getUserKey() methods, so we don't duplicate an entry
@@ -59,6 +78,7 @@ public class UserDAO implements UserCrud {
     public void save (UserModel row) throws SQLException, BadUserException{
        getAccountKey();
        getUserKey();
+       trackUserId();
        String sql =  "SELECT user_id FROM users WHERE user_id = ?";
        PreparedStatement pstmt = conn.prepareStatement(sql);
        pstmt.setInt(1, row.getUser_id());

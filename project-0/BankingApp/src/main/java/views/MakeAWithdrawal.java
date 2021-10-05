@@ -24,16 +24,13 @@ public class MakeAWithdrawal extends View{
 
         System.out.print("Enter Account #:");
         int accountId = scanner.nextInt();
-        System.out.println("A");
         System.out.print("Make a withdrawal:");
         Double balance = scanner.nextDouble();
         NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
         String moneyString = formatter.format(balance);
-        System.out.println("B");
         acctModel.setAccount_id(accountId);
         acctModel.setBalance(balance);
         acctdao.withdrawAcct(accountId, balance);
-        System.out.println("C");
 
         System.out.println("Your withdrawal was successful, you withdrew" + " " + moneyString);
 

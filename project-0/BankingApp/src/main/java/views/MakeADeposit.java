@@ -23,17 +23,14 @@ public class MakeADeposit extends View{
 
         System.out.print("Enter Account #:");
         int accountId = scanner.nextInt();
-        System.out.println("A");
         System.out.print("Make a deposit:");
         Double balance = scanner.nextDouble();
         NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
         String moneyString = formatter.format(balance);
-        System.out.println("B");
-        //if statement
         acctModel.setAccount_id(accountId);
         acctModel.setBalance(balance);
         acctdao.depositAcct(accountId, balance);
-        System.out.println("C");
+
 
         System.out.println("Your deposit was successful" + " " + "you deposited" + " " +  moneyString);
 

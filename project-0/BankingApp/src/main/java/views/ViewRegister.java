@@ -30,6 +30,7 @@ public class ViewRegister extends View{
         uModel.setUsername(username);
         uModel.setEmail(email);
         uModel.setPassword(pass);
+        userdao.trackUserId();
         userdao.save(uModel);
 
         if(passWordValidate(pass)){
