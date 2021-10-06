@@ -39,8 +39,7 @@ public class MakeAWithdrawal extends View{
 
         System.out.println("Your withdrawal was successful, you withdrew" + " " + moneyString);
 
-
-
         viewManager.navigate("ViewBankMenu");
     }
 }
+

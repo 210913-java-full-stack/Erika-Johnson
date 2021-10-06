@@ -39,6 +39,17 @@ public class MakeADeposit extends View{
 
         viewManager.navigate("ViewBankMenu");
     }
+    public void withdrawal(double withdrawal) {
+        if(withdrawal < 0.0)
+            balance = balance - withdrawal;
+    } else {
+        System.out.println("Withdrawal amount exceeded");
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
 
 }
 
