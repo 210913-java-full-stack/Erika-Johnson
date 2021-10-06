@@ -1,6 +1,8 @@
 package views;
 
+import DAOs.AccountDAO;
 import DAOs.UserDAO;
+import models.AccountModel;
 import models.UserModel;
 import utility.ViewManager;
 
@@ -23,8 +25,8 @@ public class ViewLogin extends View{
         System.out.print("Enter Password:");
         String password = scanner.nextLine();
         if (userdao.authenticate(user, password)) {
-          System.out.println("Welcome " + user);
-            System.out.println( ViewManager.getViewManager().getCurrentUser());
+            System.out.println("Welcome " + user );
+//            System.out.println( ViewManager.getViewManager().getCurrentUser());
             viewManager.navigate("ViewBankMenu");
     } else {
           System.out.println("Username and Password do not match");

@@ -5,6 +5,8 @@ import exceptions.BadUserException;
 import models.UserModel;
 import java.sql.SQLException;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 /** Line 22 A constructor, and you invoke a constructor with the new keyword the result of this operation
@@ -33,13 +35,14 @@ public class ViewRegister extends View{
         userdao.trackUserId();
         userdao.save(uModel);
 
-        if(passWordValidate(pass)){
+        if(passWordValidate(pass) && (emailValidate(email) && (usernameValidate(username)))){
             System.out.println("Thanks for joining our bank " + username);
             System.out.println("As a gift we have set you with your own personal checking account");
             System.out.println("You will be redirected to the login screen");
 
             viewManager.navigate("ViewLogin");
         } else{
+            System.out.println("Invalid password and email");
             viewManager.navigate("MainMenu");
         }
 }
@@ -48,13 +51,31 @@ public class ViewRegister extends View{
  * Username validation. In sql a unique constraint is placed on username in users table
  */
 
+private boolean usernameValidate(String username) {
+    if(username.length() >= 5){
+        return true;
+    } else {
+        System.out.println("Username must be at least 5 characters and can consist of numbers");
+    }
+    return false;
+}
+
 /**
  * Email Validation for registration
+ * emailValidate Method will print true or false and is called on email (Whatever the user inputs)
+ * Set emailRegex to the regex pattern to validate email
+ * Then create a pattern object and are able to compile the regex
+ * We are then able to match the object with the user input to make sure it is meets the requirements/valid
+ * matcher.find() validates if the string(email) matches the pattern of the regex
+ * Email must contain normal characters before and after the @ symbol and .com
  */
 
-//    private boolean checkEmail(String email) {
-//
-//    }
+    private boolean emailValidate(String email) {
+            String emailRegex = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$";
+            Pattern emailPat = Pattern.compile(emailRegex, Pattern.CASE_INSENSITIVE);
+            Matcher matcher = emailPat.matcher(email);
+            return matcher.find();
+    }
 
     /**
      * Password validation for registration
@@ -73,7 +94,7 @@ public class ViewRegister extends View{
     }
 
     /**
-     * Checks to see if password has at least 1 Uppercase,1 Lowercase & 1 number & 1 special character
+     * Checks to see if password has at least 1 Uppercase,1 Lowercase & 1 number
      * Will loop through every single character within the string password
      * Assign c to the new character we will be looping through
      * Loop through password checking to see if it meets the requirements

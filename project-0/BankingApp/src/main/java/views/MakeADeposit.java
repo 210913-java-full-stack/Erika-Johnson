@@ -21,7 +21,7 @@ public class MakeADeposit extends View{
         AccountModel acctModel = new AccountModel();
         UserModel user =  viewManager.getCurrentUser();
 
-        System.out.print("Enter Account #:");
+        System.out.print("Enter Account id:");
         int accountId = scanner.nextInt();
         System.out.print("Make a deposit:");
         Double balance = scanner.nextDouble();
@@ -29,12 +29,13 @@ public class MakeADeposit extends View{
         String moneyString = formatter.format(balance);
         acctModel.setAccount_id(accountId);
         acctModel.setBalance(balance);
+        acctModel.setAccount_id(user.getUser_id());
         acctdao.depositAcct(accountId, balance);
-
-
         System.out.println("Your deposit was successful" + " " + "you deposited" + " " +  moneyString);
-
 
         viewManager.navigate("ViewBankMenu");
     }
+
 }
+
+

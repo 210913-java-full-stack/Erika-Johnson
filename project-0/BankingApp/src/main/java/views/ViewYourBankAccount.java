@@ -25,7 +25,6 @@ public class ViewYourBankAccount extends View{
 
         MyArrayList<AccountModel> bankList;
         bankList = acctDao.getUserAccount(user.getUser_id());
-
         System.out.println("======Your Bank Accounts======");
         System.out.println(" ");
         NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);

@@ -1,6 +1,5 @@
 package DAOs;
 
-import exceptions.BadUserException;
 import models.AccountModel;
 import utility.datastructures.MyArrayList;
 import java.sql.*;
@@ -14,9 +13,10 @@ public class AccountDAO implements AccountCrud {
 
     }
 
+    /**Returning the account_id to allow user to create a bank account and keeps track of the
+     *account_id and increments by one to find the next available id within the database.
+     */
 
-//To create another bank account need the user_id
-// need to perhaps populate the junction table first with a new account
 
     public int newAccountId;
     @Override
@@ -30,29 +30,38 @@ public class AccountDAO implements AccountCrud {
       }
       return newAccountId;
   }
-    //We need to maintain the account ID that we create new rows with, so far we track it with newAccountId, which
-    //increments. Now we just need to make sure we resume that count when we restart the app.
-    //I would suggest: Query the accounts table in the constructor, looking for the current greatest ID,
-    // then increment it once.
-    //Also, if we need to do the same sort of tracking of IDs for user, just re-use very similar code as this.
-    //////////////DEBUG>>??????????//////////////////////////////
+
+    /**
+     *      * The trackUserId method maintains the account_id that we create new rows with. It allows
+     *      * us to resume that count when we restart the application.
+     *      * Query(extract data from db) the users table in a constructor, looking for the current greatest ID.
+     *      * Once the highest value has been detected it is stored in newAccountId (Line 58)
+     *      * and return the highest account_id (Line 59)
+     *      * else return 0 if user_id can not be found
+     * @return
+     * @throws SQLException
+     */
+
     @Override
     public int trackAcctId() throws SQLException {
         getBankAccountKey();
         String trackAcctISql = "SELECT account_id FROM accounts ORDER BY account_id DESC LIMIT 1";
         PreparedStatement storeAcctId = conn.prepareStatement(trackAcctISql);
-//        storeAcctId.setInt(1, newAccountId);
         ResultSet resultSet = storeAcctId.executeQuery();
-        //...write the JDBC stuff to use this statement
         if(resultSet.next()) {
             newAccountId = resultSet.getInt("account_id");
            return newAccountId;
-            //increment the number once and store it.
         } else {
           return (newAccountId = 0);
-            //if no results came back. then the table is empty, start with 0;
         }
     }
+
+    /**
+     * A logged in user can create a bank account
+     * @param account_type
+     * @param user_id
+     * @throws SQLException
+     */
 
     @Override
     public void CreateBankAcct(String account_type, int user_id) throws SQLException {
@@ -73,7 +82,12 @@ public class AccountDAO implements AccountCrud {
                 bankAcctStmt.executeUpdate();
             }
 
-
+    /**
+     * MyArrayList displays the current users bank accounts
+     * @param user_id
+     * @return
+     * @throws SQLException
+     */
     @Override
     public MyArrayList<AccountModel> getUserAccount(int user_id) throws SQLException {
         String userAcctSql = "SELECT * FROM accounts a JOIN customer_accounts ca ON a.account_id = ca.account_id WHERE user_id = ?";
@@ -101,7 +115,7 @@ public class AccountDAO implements AccountCrud {
         return true;
     }
 
-    /**
+    /** For withdrawAcct and depositAcct methods
      * First check the account_id's within the accounts table.
      *Next check to see if the account_id matches the account_id the user wants
      * If so, update account to the amount the user wants to deposit or withdraw.
@@ -156,22 +170,6 @@ public class AccountDAO implements AccountCrud {
             System.out.println("Account_id is invalid");
         }
      return false;
-    }
-
-    @Override
-    public AccountModel getItemById(int account_id) throws SQLException {
-        String sql = "SELECT * FROM accounts WHERE account_id = ?";
-        PreparedStatement pstmt = conn.prepareStatement(sql);
-        pstmt.setInt(1, account_id);
-        ResultSet rs = pstmt.executeQuery();
-
-        if(rs.next()) {
-            return new AccountModel(rs.getInt("account_id"), (rs.getString("account_type")),
-                    (rs.getDouble("balance")));
-        }else {
-            return null;
-        }
-
     }
 
 }

@@ -7,7 +7,7 @@ import utility.datastructures.MyArrayList;
 import java.sql.*;
 
 public class UserDAO implements UserCrud {
-    //maintain a connection
+
 
     private Connection conn;
 
@@ -18,7 +18,8 @@ public class UserDAO implements UserCrud {
         this.conn = conn;
     }
 
-    /**Returning the user_id to allow user to register for an account*/
+    /**Returning the user_id to allow user to register for an account and keeps track of the
+     * user_id and increments by one to find the next available id.*/
     public int newUserId;
     @Override
     public int getUserKey() throws SQLException {
@@ -32,24 +33,31 @@ public class UserDAO implements UserCrud {
         return newUserId;
     }
 
-    //////////////DEBUG>>??????????//////////////////////////////
+    /**
+     * The trackUserId method maintains the user_id that we create new rows with. It allows
+     * us to resume that count when we restart the application.
+     * Query the users table in a constructor, looking for the current greatest ID.
+     * Once the highest value has been detected it is stored in newUserId (Line 54)
+     * and return the highest user_id (Line 55)
+     * else return 0 if user_id can not be found
+     * @return
+     * @throws SQLException
+     */
+
     @Override
     public int trackUserId() throws SQLException {
         getUserKey();
         String trackAcctSql = "SELECT user_id FROM users ORDER BY user_id DESC LIMIT 1";
         PreparedStatement storeUserId = conn.prepareStatement(trackAcctSql);
         ResultSet resultSet = storeUserId.executeQuery();
-        //...write the JDBC stuff to use this statement
         if(resultSet.next()) {
             newUserId = resultSet.getInt("user_id");
            return newUserId;
-            //increment the number once and store it.
         } else {
             return (newUserId = 0);
-            //if no results came back. then the table is empty, start with 0;
         }
     }
-    ////////////////////////////////////////////////////////////////////////////////////
+
 
     /**Returning the account_id to allow user to create a bank account*/
     public int newAccountId;
@@ -71,9 +79,9 @@ public class UserDAO implements UserCrud {
      * Pass in getAccountKey() and getUserKey() methods, so we don't duplicate an entry
      * If user_id key is available will insert it into the customer_accounts table, which is our junction table
      * customer_accounts table must have user_id and account_id(foreign keys) inserted first before anyone can
-     * register for an account and create a bank account, as the user and account table are dependent on the customer_account table
+     * register for an account and create a bank account. As the user and account table are dependent on the customer_account table
      * When inserting the foreign keys into the customer_account table must increment the return value to receive the next available id
-     * Once those values are inserted into the table once you register you will automatically be given a bank account.
+     * Once those values are inserted into the table and after you register you will automatically be given a bank account.
      * @return
      */
     @Override
