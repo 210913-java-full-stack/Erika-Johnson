@@ -7,14 +7,17 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+/**
+ * class reference that references an object of which we only want once
+ */
 public class ConnectionManager {
-    //class reference that references an object of which we only want once
+
     private static Connection conn;
 
     private ConnectionManager() {
     }
 
-    //This is a static method for returning a connection in the factory singleton design pattern
+    /**This is a static method for returning a connection in the factory singleton design pattern*/
     public static Connection getConnection() {
         if (conn == null) {
             try {

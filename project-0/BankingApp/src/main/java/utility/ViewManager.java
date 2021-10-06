@@ -24,7 +24,6 @@ public class ViewManager {
     private Connection conn;
     private Scanner scanner;
     private UserModel currentUser;
-    private AccountModel currentAccount;
 
     public ViewManager() {
        viewManager = this;
@@ -33,7 +32,7 @@ public class ViewManager {
        scanner = new Scanner(System.in); //Binding Scanner to our console
        viewList = new MyArrayList<>();
 
-        //set up views
+        /**Set views, different pages the user is able to navigate through the console */
         viewList.add(new MainMenu(scanner));
         viewList.add(new ViewLogin(scanner));
         viewList.add(new ViewRegister(scanner));
@@ -95,11 +94,4 @@ public class ViewManager {
         this.currentUser = currentUser;
     }
 
-    public AccountModel getCurrentAccount() {
-        return currentAccount;
-    }
-
-    public void setCurrentAccount(AccountModel currentAccount) {
-        this.currentAccount = currentAccount;
-    }
 }

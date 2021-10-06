@@ -8,7 +8,7 @@ public class ViewBankMenu extends View{
     }
 
     /**
-     * Write I/O here, also the navigation based on processing input
+     * Write I/O(input/output) here, also the navigation based on processing input
      */
 
     @Override

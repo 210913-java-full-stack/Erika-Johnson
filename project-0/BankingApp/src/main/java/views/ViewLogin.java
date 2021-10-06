@@ -9,6 +9,9 @@ import utility.ViewManager;
 import java.sql.SQLException;
 import java.util.Scanner;
 
+/**
+ * User Login
+ */
 
 public class ViewLogin extends View{
 

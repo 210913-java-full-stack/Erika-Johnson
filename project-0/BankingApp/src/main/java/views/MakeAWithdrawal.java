@@ -15,6 +15,11 @@ public class MakeAWithdrawal extends View{
         super(scanner, "MakeAWithdrawal");
     }
 
+    /**
+     * User can withdraw from an account
+     * @throws SQLException
+     */
+
     @Override
     public void renderView() throws SQLException {
         AccountDAO acctdao = new AccountDAO(viewManager.getConn());

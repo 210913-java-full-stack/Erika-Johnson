@@ -10,6 +10,10 @@ import java.text.NumberFormat;
 import java.util.Locale;
 import java.util.Scanner;
 
+/**
+ * User can deposit from an account
+ */
+
 public class MakeADeposit extends View{
     public MakeADeposit(Scanner scanner) {
         super(scanner, "MakeADeposit");
