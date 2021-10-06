@@ -35,7 +35,7 @@ public class ViewRegister extends View{
         userdao.trackUserId();
         userdao.save(uModel);
 
-        if(passWordValidate(pass) && (emailValidate(email) && (usernameValidate(username)))){
+        if(passWordValidate(pass) && (emailValidate(email))){
             System.out.println("Thanks for joining our bank " + username);
             System.out.println("As a gift we have set you with your own personal checking account");
             System.out.println("You will be redirected to the login screen");
@@ -45,7 +45,6 @@ public class ViewRegister extends View{
             System.out.println("Invalid password and email");
             viewManager.navigate("MainMenu");
         }
-
 }
 
 /**

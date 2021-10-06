@@ -21,7 +21,7 @@ public class MakeAWithdrawal extends View{
 
     @Override
     public void renderView() throws SQLException {
-        AccountDAO acctdao = new AccountDAO(viewManager.getConn());
+        AccountDAO acct = new AccountDAO(viewManager.getConn());
         AccountModel acctModel = new AccountModel();
         UserModel user = viewManager.getCurrentUser();
 
@@ -30,13 +30,11 @@ public class MakeAWithdrawal extends View{
         int accountId = scanner.nextInt();
         System.out.print("Make a withdrawal:");
         Double balance = scanner.nextDouble();
-        NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
-        String moneyString = formatter.format(balance);
         acctModel.setAccount_id(accountId);
+        acctModel.setAccount_id(user.getUser_id());
         acctModel.setBalance(balance);
-        acctdao.withdrawAcct(accountId, balance);
-        System.out.println("Your withdrawal was successful, you withdrew" + " " + moneyString);
-
+        acct.withdrawAcct(accountId, balance);
+        acctModel.withdraw(balance);
         viewManager.navigate("ViewBankMenu");
     }
 

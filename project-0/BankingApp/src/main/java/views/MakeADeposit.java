@@ -19,7 +19,7 @@ public class MakeADeposit extends View{
 
     @Override
     public void renderView() throws SQLException {
-        AccountDAO acctdao = new AccountDAO(viewManager.getConn());
+        AccountDAO acct = new AccountDAO(viewManager.getConn());
         AccountModel acctModel = new AccountModel();
         UserModel user =  viewManager.getCurrentUser();
 
@@ -27,14 +27,11 @@ public class MakeADeposit extends View{
         int accountId = scanner.nextInt();
         System.out.print("Make a deposit:");
         Double balance = scanner.nextDouble();
-        NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
-        String moneyString = formatter.format(balance);
         acctModel.setAccount_id(accountId);
         acctModel.setBalance(balance);
         acctModel.setAccount_id(user.getUser_id());
-        acctdao.depositAcct(accountId, balance);
-        System.out.println("Your deposit was successful" + " " + "you deposited" + " " +  moneyString);
-
+        acct.depositAcct(accountId, balance);
+        acctModel.deposit(balance);
         viewManager.navigate("ViewBankMenu");
     }
 

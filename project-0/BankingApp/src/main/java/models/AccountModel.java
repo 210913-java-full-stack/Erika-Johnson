@@ -1,11 +1,14 @@
 package models;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 public class AccountModel {
     private int account_id;
     private String account_type;
     private double balance;
 
-    public AccountModel()  {
+    public AccountModel() {
 
     }
 
@@ -39,12 +42,31 @@ public class AccountModel {
         this.balance = balance;
     }
 
-    public void withdraw(double amount){
-        balance -= amount;
+    public void withdraw(double amount) {
+        NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
+        String moneyString = formatter.format(balance);
+        double checkBalance = balance;
+        if (amount > 0) {
+            checkBalance -= amount;
+            if (checkBalance >= 0) {
+                balance -= amount;
+                System.out.println("Your withdraw was successful" + " " + "you withdrew" + " " +  moneyString);
+            }
+        } else {
+            System.out.println("Invalid amount, please enter a positive number");
+        }
     }
 
     public void deposit(double amount){
-        balance += amount;
+        NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
+        String moneyString = formatter.format(balance);
+        if(amount > 0){
+            balance += amount;
+            System.out.println("Your deposit was successful" + " " + "you deposited" + " " +  moneyString);
+        }else{
+            System.out.println("Invalid amount, please enter a positive number");
+        }
+
     }
 
     public String toString() {
