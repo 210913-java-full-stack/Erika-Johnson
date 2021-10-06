@@ -3,7 +3,6 @@ package views;
 import DAOs.AccountDAO;
 import models.AccountModel;
 import models.UserModel;
-import utility.ViewManager;
 
 import java.sql.SQLException;
 import java.text.NumberFormat;
@@ -24,7 +23,7 @@ public class MakeAWithdrawal extends View{
     public void renderView() throws SQLException {
         AccountDAO acctdao = new AccountDAO(viewManager.getConn());
         AccountModel acctModel = new AccountModel();
-        UserModel user =  viewManager.getCurrentUser();
+        UserModel user = viewManager.getCurrentUser();
 
 
         System.out.print("Enter Account #:");
@@ -36,10 +35,10 @@ public class MakeAWithdrawal extends View{
         acctModel.setAccount_id(accountId);
         acctModel.setBalance(balance);
         acctdao.withdrawAcct(accountId, balance);
-
         System.out.println("Your withdrawal was successful, you withdrew" + " " + moneyString);
 
         viewManager.navigate("ViewBankMenu");
     }
+
 }
 

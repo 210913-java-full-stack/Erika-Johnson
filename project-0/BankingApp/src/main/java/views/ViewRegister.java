@@ -45,6 +45,7 @@ public class ViewRegister extends View{
             System.out.println("Invalid password and email");
             viewManager.navigate("MainMenu");
         }
+
 }
 
 /**
@@ -67,11 +68,11 @@ private boolean usernameValidate(String username) {
  * Then create a pattern object and are able to compile the regex
  * We are then able to match the object with the user input to make sure it is meets the requirements/valid
  * matcher.find() validates if the string(email) matches the pattern of the regex
- * Email must contain normal characters before and after the @ symbol and .com
+ * Email must contain normal characters before and after the @ symbol
  */
 
     private boolean emailValidate(String email) {
-            String emailRegex = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$";
+            String emailRegex = "^(.+)@(.+)$";
             Pattern emailPat = Pattern.compile(emailRegex, Pattern.CASE_INSENSITIVE);
             Matcher matcher = emailPat.matcher(email);
             return matcher.find();

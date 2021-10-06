@@ -39,6 +39,14 @@ public class AccountModel {
         this.balance = balance;
     }
 
+    public void withdraw(double amount){
+        balance -= amount;
+    }
+
+    public void deposit(double amount){
+        balance += amount;
+    }
+
     public String toString() {
         return this.account_id + " - " + this.account_type + " - " + this.balance;
         }
