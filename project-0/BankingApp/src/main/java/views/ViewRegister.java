@@ -61,7 +61,7 @@ private boolean usernameValidate(String username) {
 }
 
 /**
- * Email Validation for registration
+ * Email Validation for registration Regex A.K.A. Regular expressions
  * emailValidate Method will print true or false and is called on email (Whatever the user inputs)
  * Set emailRegex to the regex pattern to validate email
  * Then create a pattern object and are able to compile the regex

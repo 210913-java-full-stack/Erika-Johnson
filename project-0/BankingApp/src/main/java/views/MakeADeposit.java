@@ -4,8 +4,6 @@ import DAOs.AccountDAO;
 import models.AccountModel;
 import models.UserModel;
 import java.sql.SQLException;
-import java.text.NumberFormat;
-import java.util.Locale;
 import java.util.Scanner;
 
 /**
