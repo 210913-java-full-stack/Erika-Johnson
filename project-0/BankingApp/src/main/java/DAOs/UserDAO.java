@@ -170,9 +170,9 @@ public class UserDAO implements UserCrud {
     @Override
     public UserModel getItemByID(int user_id) throws SQLException {
         String sql = "SELECT * FROM users WHERE user_id = ?";
-        PreparedStatement pstmt = conn.prepareStatement(sql);
-        pstmt.setInt(1, user_id);
-        ResultSet rs = pstmt.executeQuery(sql);
+        PreparedStatement stat = conn.prepareStatement(sql);
+        stat.setInt(1, user_id);
+        ResultSet rs = stat.executeQuery(sql);
 
         if(rs.next()) {
            return new UserModel(rs.getInt("user_id"), rs.getString("username"),rs.getString("email"),

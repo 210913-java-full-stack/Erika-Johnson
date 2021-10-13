@@ -2,7 +2,6 @@ package views;
 
 import exceptions.BadUserException;
 import utility.ViewManager;
-
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Scanner;

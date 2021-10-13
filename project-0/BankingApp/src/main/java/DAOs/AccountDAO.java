@@ -32,12 +32,12 @@ public class AccountDAO implements AccountCrud {
   }
 
     /**
-     *      * The trackUserId method maintains the account_id that we create new rows with. It allows
+     *      * The trackAcctId method maintains the account_id that we create new rows with. It allows
      *      * us to resume that count when we restart the application.
      *      * Query(extract data from db) the users table in a constructor, looking for the current greatest ID.
      *      * Once the highest value has been detected it is stored in newAccountId (Line 58)
      *      * and return the highest account_id (Line 59)
-     *      * else return 0 if user_id can not be found
+     *      * else return 0 if account_id can not be found
      * @return
      * @throws SQLException
      */

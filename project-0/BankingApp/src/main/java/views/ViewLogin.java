@@ -1,11 +1,6 @@
 package views;
 
-import DAOs.AccountDAO;
 import DAOs.UserDAO;
-import models.AccountModel;
-import models.UserModel;
-import utility.ViewManager;
-
 import java.sql.SQLException;
 import java.util.Scanner;
 
